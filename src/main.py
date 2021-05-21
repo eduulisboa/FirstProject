@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.settings import APP_HOST, APP_PORT, APP_WORKER_LOGLEVEL, ALLOWED_HOSTS, DEBUG
 from src.controllers import template_router
+from src.controllers import user_router
 from src.repositories.postgres.sqlalchemy import create_database
 
 create_database()
@@ -19,6 +20,7 @@ app.add_middleware(
 )
 
 app.include_router(template_router, tags=['Template'])
+app.include_router(user_router, tags=['User'])
 
 
 if __name__ == '__main__':
