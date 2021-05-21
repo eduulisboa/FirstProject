@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+python-decouple = "*"
+sqlalchemy = "*"
+psycopg2-binary = "*"
+ipython = "*"
+requests = "*"
+gunicorn = "*"
+uvloop = "*"
+httptools = "*"
+
+[dev-packages]
+flake8 = "*"
+
+[requires]
+python_version = "3.8"

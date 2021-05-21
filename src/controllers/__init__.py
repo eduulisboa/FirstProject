@@ -1,0 +1,1 @@
+from src.controllers.template_controller import template_router
