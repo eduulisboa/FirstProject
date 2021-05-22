@@ -1,1 +1,2 @@
 from src.controllers.template_controller import template_router
+from src.controllers.user_controller import user_router

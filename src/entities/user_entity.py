@@ -9,6 +9,8 @@ class UserEntity(Base):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    anything = Column(String(255), index=True)
+    full_name = Column(String(255), index=True)
+    phone_number = Column(String(16))
+    email = Column(String(225))
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now(), onupdate=datetime.now())
