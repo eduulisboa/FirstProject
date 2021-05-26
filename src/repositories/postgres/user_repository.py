@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from src.schemas.user_schema import UserSchema
+from src.schemas.user_schema import UserSchema, UserCreateSchema
 from src.entities.user_entity import UserEntity
 
 
@@ -13,43 +13,45 @@ class UserRepository:
         return True if self.__database else False
 
     def get_all(self):
-        users = self.__database.query(UserEntity).all()
-        return users
-
-    def get_one(self, user_id):
-        user = self.__database.query(UserEntity).get(user_id)
-
-        if not user:
-            return None
-
+        db_user = self.__database.query(UserEntity).all()
+        user = [UserSchema(**user.__dict__) for user in db_user]
         return user
 
-    def create(self, user: UserSchema):
-        new_user = UserEntity(
-            anything=user.anything,
-        )
+    def get_one(self, user_id):
+        user_entity = self.__database.query(UserEntity).get(user_id)
 
-        self.__database.add(new_user)
+        if not user_entity:
+            return None
+
+        user_schema = UserSchema(**user_entity.__dict__)
+        return user_schema
+
+    def create(self, user: UserCreateSchema):
+        user_entity = UserEntity(**user.__dict__)
+
+        self.__database.add(user_entity)
         self.__database.commit()
-        self.__database.refresh(new_user)
+        self.__database.refresh(user_entity)
 
-        return new_user
+        user_schema = UserSchema(**user_entity.__dict__)
+        return user_schema
 
-    def update(self, user_id, user: UserSchema):
-        db_user = self.__database.query(UserEntity).get(user_id)
+    def update(self, user_id, user: UserCreateSchema):
+        user_entity = self.__database.query(UserEntity).get(user_id)
 
-        if not db_user:
+        if not user_entity:
             return None
 
         updated_user = user.__dict__
 
         for key, value in updated_user.items():
-            setattr(db_user, key, value)
+            setattr(user_entity, key, value)
 
         self.__database.commit()
-        self.__database.refresh(db_user)
+        self.__database.refresh(user_entity)
 
-        return db_user
+        user_schema = UserSchema(**user_entity.__dict__)
+        return user_schema
 
     def delete(self, user_id):
         user = self.__database.query(UserEntity).get(user_id)
@@ -60,4 +62,4 @@ class UserRepository:
         self.__database.delete(user)
         self.__database.commit()
 
-        return user
+        return True

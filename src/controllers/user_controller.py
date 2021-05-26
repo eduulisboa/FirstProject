@@ -12,9 +12,9 @@ user_router = APIRouter(prefix='/user')
 
 
 @user_router.get('/', response_model=List[UserSchema])
-def get_all_users(session: Session = Depends(get_database)):
+def get_all_user(session: Session = Depends(get_database)):
     repository = UserRepository(session)
-    user = repository.get_all
+    user = repository.get_all()
     return user
 
 

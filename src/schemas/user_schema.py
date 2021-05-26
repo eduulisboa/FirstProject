@@ -14,5 +14,5 @@ class UserSchema(BaseModel):
 
 class UserCreateSchema(BaseModel):
     full_name: str
-    phone_number: int
+    phone_number: str
     email: str
