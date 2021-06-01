@@ -36,7 +36,8 @@ def create_transaction(transaction: TransactionCreateSchema, session: Session = 
 
 
 @transaction_router.put('/{transaction_id}', response_model=TransactionSchema)
-def update_transaction_by_id(transaction_id: int, transaction: TransactionCreateSchema, session: Session = Depends(get_database)):
+def update_transaction_by_id(transaction_id: int, transaction: TransactionCreateSchema,
+                             session: Session = Depends(get_database)):
     repository = TransactionRepository(session)
     transaction = repository.update(transaction_id, transaction)
     if not transaction:
