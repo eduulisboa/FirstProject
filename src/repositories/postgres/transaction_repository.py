@@ -17,6 +17,11 @@ class TransactionRepository:
         transaction = [TransactionSchema(**transaction.__dict__) for transaction in db_transaction]
         return transaction
 
+    def get_all_by_user_id(self, user_id):
+        db_transaction_user_id = self.__database.query(TransactionEntity).filter(TransactionEntity.user_id == user_id)
+        transaction = [TransactionSchema(**transaction.__dict__) for transaction in db_transaction_user_id]
+        return transaction
+
     def get_one(self, transaction_id):
         transaction_entity = self.__database.query(TransactionEntity).get(transaction_id)
 

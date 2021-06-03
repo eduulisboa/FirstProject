@@ -17,6 +17,15 @@ def get_all_transaction(session: Session = Depends(get_database)):
     transaction = repository.get_all()
     return transaction
 
+@transaction_router.get('/user/{user_id}', response_model=List[TransactionSchema])
+def get_transactions_by_user_id(user_id: int, session: Session = Depends(get_database)):
+    repository = TransactionRepository(session)
+    transaction = repository.get_all_by_user_id(user_id)
+    if not transaction:
+        response = {'detail': 'User not found in Transactions!'}
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content=response)
+    return transaction
+
 
 @transaction_router.get('/{transaction_id}', response_model=TransactionSchema)
 def get_transaction_by_id(transaction_id: int, session: Session = Depends(get_database)):
